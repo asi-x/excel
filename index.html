@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小尘尘的主站</title>
+</head>
+<body>
+<div align='center' style='margin-top: 200px'>
+    <h2>欢迎访问小尘尘个人主页</h2><h5>本站由四哥倾情提供技术支持</h5>
+</div>
+<div align='center' style='margin-top: 100px'>
+    <form method = "post" action="http://op.snob10.com/php/tool/upload" enctype="multipart/form-data" target = "tar">
+        <input  type="file"  name="file" />
+        <input  type="hidden"  name="command" value="uploadSource"/>
+        <input  type="hidden"  name="type" value="1"/>
+        <input type="submit" class="btn btn-primary" value="上传什么文件自己改" />
+    </form>
+</div>
+<div align='center' style='margin-top: 100px'>
+    <form method = "post" action="./interface.php" enctype="multipart/form-data" target = "tar">
+        <input  type="file"  name="file" />
+        <input  type="hidden"  name="command" value="uploadTarget"/>
+        <input  type="hidden"  name="type" value="2"/>
+        <input type="submit" class="btn btn-primary" value="上传什么文件自己改" />
+    </form>
+</div>
+</body>
+</html>
