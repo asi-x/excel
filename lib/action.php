@@ -172,6 +172,62 @@ class action
     //生成excel并导出excel文件
     function exportExcel($list,$filename = '',$excel2007=false){
 
+        if(empty($filename)) $filename = time();
+        if(!is_array($list)) return false;
+
+        //初始化PHPExcel()
+        $objPHPExcel = new PHPExcel();
+        //设置保存版本格式
+        if($excel2007){
+            $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+            $filename = $filename.'.xlsx';
+        }else{
+            $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
+            $filename = $filename.'.xls';
+        }
+        $startSheet = 0;
+        foreach ($list as $key => $val) {
+            $indexKey = array_keys($val[0]);
+            $header_arr = [];
+            foreach ($indexKey as $ke => $va) {
+                $header_arr[] = PHPExcel_Cell::stringFromColumnIndex($ke);//将数字转为['A','B','C'......]
+            }
+            //设置边框
+            $styleArray = [
+                'borders' => [
+                    'allborders' => [
+                        'style' => PHPExcel_Style_Border::BORDER_THIN,//细边框
+                    ],
+                ],
+            ];
+            $objPHPExcel->setActiveSheetIndex($startSheet); //切换到新创建的工作表
+            $objActSheet = $objPHPExcel->getActiveSheet();
+            $objActSheet->setTitle($key); //设置工作表名称
+            if($startSheet < count($list)-1){
+                $objPHPExcel->createSheet();//创建新的工作表
+            }
+            //数据写入
+            $startRow = 1;
+            foreach ($val as $row) {
+                foreach ($indexKey as $key => $value){
+                    //print_r($key);
+                    //这里是设置单元格的内容
+                    $objActSheet->setCellValue($header_arr[$key].$startRow,$row[$value]);
+                    //$objActSheet->setCellValueByColumnAndRow($key, $startRow, 'Some value');
+                    //设置背景颜色
+                    $objActSheet->getStyle($header_arr[$key].'1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+                    $objActSheet->getStyle($header_arr[$key].'1')->getFill()->getStartColor()->setARGB('B0C4DE');
+                    //边框设置
+                    $objActSheet->getStyle($header_arr[$key].$startRow)->applyFromArray($styleArray);
+                    //设置单元格为文本
+                    //$objPHPExcel->getActiveSheet()->getStyle($header_arr[$key].$startRow)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+                    //宽度
+                    $objActSheet->getColumnDimension($header_arr[$key])->setWidth(16);
+                }
+                $startRow++;
+            }
+            $startSheet ++;
+        }
         // 下载这个表格，在浏览器输出
         ob_end_clean();//清除缓冲区,避免乱码
         header("Pragma: public");
