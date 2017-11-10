@@ -89,8 +89,6 @@ class action
             //$getMergeCells = $currentSheet->getMergeCells();
             //print_r($getMergeCells);die;
             $highestColumnNum = PHPExcel_Cell::columnIndexFromString($highestColumn);//将列名转为数字
-
-
             for ($row = 1; $row <= $highestRow; $row++) {
                 for ($column = 0; $column != $highestColumnNum; $column++) {
                     $val = $currentSheet->getCellByColumnAndRow($column, $row)->getValue();
