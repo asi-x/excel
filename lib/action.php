@@ -60,11 +60,11 @@ class action
     }
     public function updateValue(){
         $sourceData = $this->excelTodata('Source.'.$this->fileExtend);
-        //var_dump($sourceData);
         $targetData = $this->excelTodata('Target.'.$this->fileExtend);
         //var_dump($targetData);
         foreach ($sourceData as $row=>$rowItem){
             foreach ($rowItem  as $clumn=>$value){
+
                 $v = trim($value);
                 if(!empty($v) && preg_match('/^[0-9]+(.[0-9]{1,2})?$/',trim($v))){
                     $val = str_replace(',', '', $targetData[$row][$clumn])+$v;
@@ -72,6 +72,7 @@ class action
                 }
             }
         }
+        die();
         $this->getExcelObj('Target.'.$this->fileExtend)->getActiveSheet()->setTitle();
         $this->getExcelObj('Target.'.$this->fileExtend)->setActiveSheetIndex(0);
         $objWriter = PHPExcel_IOFactory::createWriter($this->getExcelObj('Target.'.$this->fileExtend), 'Excel2007');

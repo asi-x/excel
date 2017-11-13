@@ -35,3 +35,4 @@ if(!empty($req)){
 }else{
     $result['data'] = '参数不能为空';
 }
+echo json_encode($data,JSON_UNESCAPED_UNICODE);
