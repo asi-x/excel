@@ -23,6 +23,9 @@ if(!empty($req)){
         case 'uploadTarget':
             $data =  $action->uploadTarget();
             break;
+        case 'updateValue':
+            $data =  $action->updateValue();
+            break;
         default:
             $result['data'] = '无效的command';
             break;
